@@ -6,10 +6,10 @@ public class PostAjoutPersonne {
 	private String cni;
 	private String nom;
 	private String prenom;
-	private String email;
-	private String ville;
+	/*private String email;
+	private String ville;*/
     
-	private String description;
+	//private String description;
 
 	public String getTitre() {
 		return titre;
@@ -44,7 +44,7 @@ public class PostAjoutPersonne {
 	}
 
 	
-
+/*
 	public String getEmail() {
 		return email;
 	}
@@ -70,5 +70,5 @@ public class PostAjoutPersonne {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+	*/
 }
