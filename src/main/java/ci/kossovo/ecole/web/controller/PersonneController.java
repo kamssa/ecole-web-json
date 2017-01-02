@@ -57,8 +57,8 @@ public class PersonneController {
 	public String creer(@RequestBody PostAjoutPersonne p) throws JsonProcessingException {
 		Reponse<Personne> reponse;
 		Personne entity = new Personne(p.getTitre(), p.getCni(), p.getNom(), p.getPrenom());
-	//	Adresse adr = new Adresse(p.getVille(), p.getEmail());
-	//	entity.setAdresse(adr);
+		Adresse adr = new Adresse(p.getVille(), p.getEmail());
+		entity.setAdresse(adr);
 		try {
 			reponse = new Reponse<Personne>(0, null, personneModel.creer(entity));
 		} catch (InvalidPersonneException e) {

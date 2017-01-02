@@ -4,15 +4,15 @@ public class PostModifierPersonne {
 	
 	private long id;
 	
+	
 	private String titre;
 	private String cni;
 	private String nom;
 	private String prenom;
+	private String codepostal;
 	private String email;
 	private String ville;
-    
-	private String description;
-
+	
 	public String getTitre() {
 		return titre;
 	}
@@ -65,19 +65,20 @@ public class PostModifierPersonne {
 		this.ville = ville;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getCodepostal() {
+		return codepostal;
+	}
+
+	public void setCodepostal(String codepostal) {
+		this.codepostal = codepostal;
 	}
 
 }
