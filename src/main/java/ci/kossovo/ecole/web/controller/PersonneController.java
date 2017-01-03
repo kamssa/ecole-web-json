@@ -57,7 +57,7 @@ public class PersonneController {
 	public String creer(@RequestBody PostAjoutPersonne p) throws JsonProcessingException {
 		Reponse<Personne> reponse;
 		Personne entity = new Personne(p.getTitre(), p.getCni(), p.getNom(), p.getPrenom());
-		Adresse adr = new Adresse(p.getVille(), p.getEmail());
+		Adresse adr = new Adresse(p.getCodepostal(), p.getVille(), p.getEmail());
 		entity.setAdresse(adr);
 		try {
 			reponse = new Reponse<Personne>(0, null, personneModel.creer(entity));
@@ -70,35 +70,33 @@ public class PersonneController {
 
 	@PutMapping("/personnes")
 	public String modifier(@RequestBody PostModifierPersonne modif) throws JsonProcessingException {
-		Reponse<Personne> reponsePersModif = null;
-		Reponse<Personne> reponse = null;
-		boolean erreur = false;
+		Reponse<Personne> reponsePersModif;
+		Reponse<Personne> reponse;
+
 		// on recupere la personnae a modifier
-		if (!erreur) {
-			reponsePersModif = getPersonneById(modif.getId());
-			if (reponsePersModif.getStatut() != 0){
-				reponse = new Reponse<Personne>(reponsePersModif.getStatut(), reponsePersModif.getMessages(), null);
-			erreur = true;
-		}
-			}
-		if (!erreur) {
-			Personne entity = null;
-			entity = reponsePersModif.getBody();
-			entity.setTitre(modif.getTitre());
-			entity.setNom(modif.getNom());
-			entity.setPrenom(modif.getPrenom());
-			entity.setCni(modif.getCni());
-			Adresse adr = new Adresse(modif.getVille(), modif.getEmail());
-			entity.setAdresse(adr);
-			try {
-				reponse = new Reponse<Personne>(0, null, personneModel.modifier(entity));
 
-			} catch (InvalidPersonneException e) {
-				// TODO Auto-generated catch block
-				reponse = new Reponse<Personne>(1, Static.getErreursForException(e), null);
-			}
+		reponsePersModif = getPersonneById(modif.getId());
+		if (reponsePersModif.getStatut() != 0) {
+			reponse = new Reponse<Personne>(reponsePersModif.getStatut(), reponsePersModif.getMessages(), null);
 
 		}
+
+		Personne entity = null;
+		entity = reponsePersModif.getBody();
+		entity.setTitre(modif.getTitre());
+		entity.setNom(modif.getNom());
+		entity.setPrenom(modif.getPrenom());
+		entity.setCni(modif.getCni());
+		Adresse adr = new Adresse(modif.getCodepostal(), modif.getEmail(), modif.getVille());
+		entity.setAdresse(adr);
+		try {
+			reponse = new Reponse<Personne>(0, null, personneModel.modifier(entity));
+
+		} catch (InvalidPersonneException e) {
+			// TODO Auto-generated catch block
+			reponse = new Reponse<Personne>(1, Static.getErreursForException(e), null);
+		}
+
 		return jsonMapper.writeValueAsString(reponse);
 
 	}
@@ -128,20 +126,20 @@ public class PersonneController {
 	public String chercherParId(@PathVariable("id") Long id) throws JsonProcessingException {
 
 		Reponse<Personne> reponsePersId = null;
-		Reponse<Personne> reponse = null ;
+		Reponse<Personne> reponse = null;
 		boolean erreur = false;
 
 		if (!erreur) {
 			reponsePersId = getPersonneById(id);
-			if (reponsePersId.getStatut() != 0){
+			if (reponsePersId.getStatut() != 0) {
 				reponse = new Reponse<Personne>(reponsePersId.getStatut(), reponsePersId.getMessages(), null);
-			erreur = true;
-		}
+				erreur = true;
 			}
+		}
 		if (!erreur) {
-			
+
 			try {
-				reponse = new Reponse<Personne>(0,null,reponsePersId.getBody());
+				reponse = new Reponse<Personne>(0, null, reponsePersId.getBody());
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -155,19 +153,19 @@ public class PersonneController {
 
 	@DeleteMapping("/personnes/{id}")
 	public String supprimer(@PathVariable("id") Long id) throws JsonProcessingException {
-		
-		Reponse<Void> reponse = null ;
+
+		Reponse<Void> reponse = null;
 		boolean erreur = false;
 		if (!erreur) {
 			Reponse<Personne> responseSup = getPersonneById(id);
 			if (responseSup.getStatut() != 0) {
-				reponse = new Reponse<>(responseSup.getStatut(),responseSup.getMessages(), null);
+				reponse = new Reponse<>(responseSup.getStatut(), responseSup.getMessages(), null);
 				erreur = true;
-			
-		}
+
 			}
+		}
 		if (!erreur) {
-			// suppression 
+			// suppression
 			try {
 				personneModel.supprimer(id);
 				List<String> messages = new ArrayList<>();
