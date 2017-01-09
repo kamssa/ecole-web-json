@@ -70,7 +70,7 @@ public class PersonneController {
 
 	@PutMapping("/personnes")
 	public String modifier(@RequestBody PostModifierPersonne modif) throws JsonProcessingException {
-		Reponse<Personne> reponsePersModif;
+		Reponse<Personne> reponsePersModif= null;
 		Reponse<Personne> reponse;
 
 		// on recupere la personnae a modifier
@@ -82,12 +82,14 @@ public class PersonneController {
 		}
 
 		Personne entity = null;
+		
 		entity = reponsePersModif.getBody();
 		entity.setTitre(modif.getTitre());
+		entity.setCni(modif.getCni());
 		entity.setNom(modif.getNom());
 		entity.setPrenom(modif.getPrenom());
-		entity.setCni(modif.getCni());
-		Adresse adr = new Adresse(modif.getCodepostal(), modif.getEmail(), modif.getVille());
+		
+		Adresse adr = new Adresse(modif.getCodepostal(), modif.getVille(),modif.getEmail());
 		entity.setAdresse(adr);
 		try {
 			reponse = new Reponse<Personne>(0, null, personneModel.modifier(entity));

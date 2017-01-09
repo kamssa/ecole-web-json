@@ -10,8 +10,9 @@ public class PostModifierPersonne {
 	private String nom;
 	private String prenom;
 	private String codepostal;
-	private String email;
 	private String ville;
+	private String email;
+	
 	
 	public String getTitre() {
 		return titre;
